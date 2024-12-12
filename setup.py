@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='quickllama',
     version='0.0.1',
-    description='A simple and efficient way to run LLM models with multithreading support',
+    description='Run Ollama models on Colab easily',
     long_description=README,
     long_description_content_type="text/markdown",
     author='Nuhman PK',
