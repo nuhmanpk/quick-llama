@@ -24,7 +24,7 @@ class OllamaManager:
             system_type = platform.system()
             if system_type == "Linux":
                 try:
-                    subprocess.run(["curl", "-sSL", "https://ollama.ai/install.sh", "|", "sh"], check=True, shell=True)
+                    subprocess.run("curl -fsSL https://ollama.com/install.sh | sh", check=True, shell=True)
                     print("Ollama installation completed successfully.")
                 except subprocess.CalledProcessError as e:
                     print(f"Installation failed with error: {e}")
