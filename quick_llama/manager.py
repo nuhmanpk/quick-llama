@@ -4,7 +4,6 @@ import os
 import signal
 import threading
 
-
 class QuickLlama:
     def __init__(self, model_name="mistral"):
         self.server_process = None
@@ -17,9 +16,18 @@ class QuickLlama:
         if not self.is_ollama_installed():
             self.install_ollama()
         
-        self.start_server()
-        self.pull_model(self.model_name)
-        self.run_model(self.model_name)
+        # Start the server in a separate thread
+        server_thread = threading.Thread(target=self.start_server, daemon=True)
+        server_thread.start()
+        
+        # Wait for the server to start (this is a simple way to wait for the server to be ready)
+        print("⚡ Waiting for the server to be ready...")
+        server_thread.join()  # Wait for the server to be fully up
+        
+        # Pull and run the model in a separate thread
+        model_thread = threading.Thread(target=self.run_model, args=(self.model_name,), daemon=True)
+        model_thread.start()
+        model_thread.join()  # Wait for the model to finish running
 
     def is_ollama_installed(self):
         """Check if Ollama is installed."""
@@ -95,6 +103,7 @@ class QuickLlama:
     def run_model(self, model_name):
         """Run a model."""
         print(f"🏃 Running model: {model_name}...")
+        self.pull_model(model_name)
         self.run_command(["ollama", "run", model_name])
         print(f"✅ Model '{model_name}' is running.")
 
@@ -127,3 +136,4 @@ class QuickLlama:
             print(line.strip())
         for line in process.stderr:
             print(f"⚠️ {line.strip()}")
+
