@@ -19,4 +19,10 @@ setup(
         'ollama',
         'threading',
     ],
+    project_urls={
+        'Documentation': 'https://github.com/nuhmanpk/pytrycatch/blob/main/README.md',
+        'Funding': 'https://github.com/sponsors/nuhmanpk',
+        'Source': 'https://github.com/nuhmanpk/pytrycatch/',
+        'Tracker': 'https://github.com/nuhmanpk/pytrycatch/issues',
+    },
 )
