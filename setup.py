@@ -7,8 +7,8 @@ README = (file / "README.md").read_text()
 
 setup(
     name='quick-llama',
-    version='0.0.3',
-    description='Run Ollama models on Colab easily',
+    version='0.0.4',
+    description='Run Ollama models easily, anywhere – including online platforms like Google Colab',
     long_description=README,
     long_description_content_type="text/markdown",
     author='Nuhman PK',
@@ -24,9 +24,9 @@ setup(
         'ollama'
     ],
     project_urls={
-        'Documentation': 'https://github.com/nuhmanpk/pytrycatch/blob/main/README.md',
+        'Documentation': 'https://github.com/nuhmanpk/quick-llama/blob/main/README.md',
         'Funding': 'https://github.com/sponsors/nuhmanpk',
-        'Source': 'https://github.com/nuhmanpk/pytrycatch/',
-        'Tracker': 'https://github.com/nuhmanpk/pytrycatch/issues',
+        'Source': 'https://github.com/nuhmanpk/quick-llama/',
+        'Tracker': 'https://github.com/nuhmanpk/quick-llama/issues',
     },
 )
