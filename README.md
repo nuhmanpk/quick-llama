@@ -1,6 +1,11 @@
 # quickllama
 
 ```py
+
+from ollama-manager import OllamaManager
+
+manager = OllamaManager()
+
 manager.queue_command("start")  # Start the server
 
 manager.queue_command("pull", "mistral")  # Pull the mistral model
