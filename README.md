@@ -6,6 +6,10 @@
 
 A Python wrapper for Ollama that simplifies managing and interacting with LLMs.
 
+<center>
+<img src="https://raw.githubusercontent.com/nuhmanpk/quick-llama/main/images/llama-image.webp" width="300" height="300" />
+</center>
+
 QuickLlama automates server setup, model management, and seamless interaction with LLMs, providing an effortless developer experience.
 
 🚀 Colab-Ready: Easily run and experiment with QuickLlama on Google Colab for hassle-free, cloud-based development!
