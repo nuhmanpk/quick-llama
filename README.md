@@ -78,7 +78,7 @@ from langchain_ollama import OllamaLLM
 
 model_name = "llama3.2:1b"
 
-quick_llama = QuickLlama(model_name="llama3.2:1b",verbose=False)
+quick_llama = QuickLlama(model_name=model_name,verbose=False)
 
 quick_llama.init()
 
