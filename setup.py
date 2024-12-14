@@ -1,4 +1,9 @@
+import pathlib
 from setuptools import setup, find_packages
+
+file = pathlib.Path(__file__).parent
+
+README = (file / "README.md").read_text()
 
 setup(
     name='quick-llama',
