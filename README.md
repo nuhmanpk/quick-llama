@@ -1,5 +1,9 @@
 # Quick Llama
 
+[![PyPI version](https://badge.fury.io/py/quick-llama.svg)](https://badge.fury.io/py/quick-llama)
+[![Downloads](https://pepy.tech/badge/quick-llama)](https://pepy.tech/project/quick-llama)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 A Python wrapper for Ollama that simplifies managing and interacting with language models. QuickLlama automates server setup, model management, and model interaction for a seamless developer experience.
 
 ## Installtion
