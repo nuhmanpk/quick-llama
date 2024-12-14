@@ -5,14 +5,14 @@ import signal
 import threading
 
 
-class OllamaManager:
+class QuickLlama:
     def __init__(self, model_name="mistral"):
         self.server_process = None
         self.model_name = model_name
 
     def init(self):
         """Initialize Ollama, start the server, pull the model, and run it."""
-        print(f"🌟 Initializing Ollama Manager with model '{self.model_name}'...")
+        print(f"🌟 Initializing QuickLlama with model '{self.model_name}'...")
         
         if not self.is_ollama_installed():
             self.install_ollama()

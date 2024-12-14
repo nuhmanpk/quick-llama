@@ -1,23 +1,23 @@
-# Ollama Manager
+# Quick Llama
 
-A Python wrapper for Ollama that simplifies managing and interacting with language models. OllamaManager automates server setup, model management, and model interaction for a seamless developer experience.
+A Python wrapper for Ollama that simplifies managing and interacting with language models. QuickLlama automates server setup, model management, and model interaction for a seamless developer experience.
 
 ## Installtion
 
 ```py
-pip install ollama-manager
+pip install quick-llama
 ```
 
 ```py
-from ollama-manager import OllamaManager
+from quick-llama import QuickLlama
 
 from ollama import chat
 from ollama import ChatResponse
 
 # Defaults to mistral
-manager = OllamaManager(model_name="llama3.2:1b")
+quick_llama = QuickLlama(model_name="llama3.2:1b")
 
-manager.init()
+quick_llama.init()
 
 response: ChatResponse = chat(model='llama3.2:1b', messages=[
   {
@@ -29,34 +29,34 @@ print(response['message']['content'])
 # or access fields directly from the response object
 print(response.message.content)
 
-manager.stop_server()
+quick_llama.stop_server()
 
 ```
 
 ## Use custom Models
 
 ```py
-manager = OllamaManager()  # Defaults to mistral
-manager.init()
+quick_llama = QuickLlama()  # Defaults to mistral
+quick_llama.init()
 
 # Custom Model
-manager = OllamaManager(model_name="custom-model-name")
-manager.init()
+quick_llama = QuickLlama(model_name="custom-model-name")
+quick_llama.init()
 ```
 ## List Models
 
 ```py
-manager.list_models()
+quick_llama.list_models()
 ```
 
 ## Stop Model
 ```py
-manager.stop_model("llama3.2:1b")
+quick_llama.stop_model("llama3.2:1b")
 ```
 ## Stop Server
 
 ```py
-manager.stop_server()
+quick_llama.stop_server()
 ```
 
 
