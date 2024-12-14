@@ -13,7 +13,7 @@ setup(
     long_description_content_type="text/markdown",
     author='Nuhman PK',
     url='https://github.com/nuhmanpk/quick-llama',
-    packages=find_packages(include=['quick-llama']),
+    packages=find_packages(include=['quick_llama']),
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
