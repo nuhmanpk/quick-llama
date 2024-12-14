@@ -6,9 +6,9 @@
 
 A Python wrapper for Ollama that simplifies managing and interacting with LLMs.
 
-<center>
-<img src="https://raw.githubusercontent.com/nuhmanpk/quick-llama/main/images/llama-image.webp" width="300" height="300" />
-</center>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/nuhmanpk/quick-llama/main/images/llama-image.webp" width="300" height="300" />
+</p>
 
 QuickLlama automates server setup, model management, and seamless interaction with LLMs, providing an effortless developer experience.
 
