@@ -23,7 +23,7 @@ pip install quick-llama
 ```
 
 ```py
-from quick-llama import QuickLlama
+from quick_llama import QuickLlama
 
 from ollama import chat
 from ollama import ChatResponse
