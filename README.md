@@ -43,4 +43,23 @@ manager.init()
 manager = OllamaManager(model_name="custom-model-name")
 manager.init()
 ```
+## List Models
+
+```py
+manager.list_models()
+```
+
+## Stop Model
+```py
+manager.stop_model("llama3.2:1b")
+```
+## Stop Server
+
+```py
+manager.stop_server()
+```
+
+
+
+
 
