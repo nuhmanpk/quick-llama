@@ -21,8 +21,7 @@ setup(
     ],
     python_requires='>=3.10',
     install_requires=[
-        'ollama',
-        'threading',
+        'ollama'
     ],
     project_urls={
         'Documentation': 'https://github.com/nuhmanpk/pytrycatch/blob/main/README.md',
