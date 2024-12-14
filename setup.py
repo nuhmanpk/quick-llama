@@ -7,7 +7,7 @@ README = (file / "README.md").read_text()
 
 setup(
     name='quick-llama',
-    version='0.0.6',
+    version='0.0.7',
     description='Run Ollama models easily, anywhere – including online platforms like Google Colab',
     long_description=README,
     long_description_content_type="text/markdown",
