@@ -1,6 +1,6 @@
 # Quick Llama
 
-[![PyPI version](https://badge.fury.io/py/quick-llama.svg)](https://badge.fury.io/py/quick-llama)
+[![PyPI version](https://badge.fury.io/py/quick-llama.svg?icon=si%3Apython)](https://badge.fury.io/py/quick-llama)
 [![Downloads](https://pepy.tech/badge/quick-llama)](https://pepy.tech/project/quick-llama)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
