@@ -6,19 +6,12 @@ from ollama-manager import OllamaManager
 
 manager = OllamaManager()
 
-manager.queue_command("start")  # Start the server
-
-manager.queue_command("pull", "mistral")  # Pull the mistral model
-
-manager.queue_command("run", "mistral")  # Run the mistral model
-
-manager.queue_command("list")  # List all models
-
-manager.queue_command("ps")  # List running models
-
-manager.queue_command("stop_model", "mistral")  # Stop the mistral model
-
-manager.queue_command("rm", "mistral")  # Remove the mistral model
-
-manager.queue_command("stop")
+manager.init()
+manager.pull_model("mistral")
+manager.run_model("mistral")
+manager.list_models()
+manager.list_running_models()
+manager.stop_model("mistral")
+manager.remove_model("mistral")
+manager.stop_server()
 ```
