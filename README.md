@@ -66,6 +66,20 @@ print(response['message']['content'])
 print(response.message.content)
 ```
 
+## Use with Langchain 
+
+```py
+from quick_llama import QuickLlama
+from langchain_ollama import OllamaLLM
+
+model_name = "llama3.2:1b"
+
+quick_llama = QuickLlama(model_name=model_name)
+
+model = OllamaLLM(model=model_name)
+model.invoke("Come up with 10 names for a song about parrots")
+```
+
 ## Use custom Models
 
 ```py
