@@ -11,7 +11,7 @@ class QuickLlama:
     streams its logs, waits for it to become healthy, and pulls the specified model.
     """
 
-    def __init__(self, model_name: str = "mistral", verbose: bool = True):
+    def __init__(self, model_name: str = "gemma3", verbose: bool = True):
         self.model_name = model_name
         self.verbose = verbose
         self.server_proc = None
