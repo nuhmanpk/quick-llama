@@ -22,6 +22,13 @@ QuickLlama automates server setup, model management, and seamless interaction wi
 pip install quick-llama
 ```
 
+### Serve a model
+```
+quick_llama = QuickLlama(model_name="llama3.2:1b",verbose=False)
+
+quick_llama.init()
+```
+
 ```py
 from quick_llama import QuickLlama
 

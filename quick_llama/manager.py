@@ -1,166 +1,93 @@
 import subprocess
-import platform
-import os
-import signal
 import threading
+import time
+import requests
+from queue import Queue
 
 class QuickLlama:
     def __init__(self, model_name="mistral", verbose=True):
-        self.server_process = None
         self.model_name = model_name
-        self.verbose = verbose  # Set the verbosity level
+        self.verbose = verbose
+        self.server_proc = None
 
     def init(self):
-        """Initialize Ollama, start the server, pull the model, and run it."""
         if self.verbose:
             print(f"🌟 Initializing QuickLlama with model '{self.model_name}'...")
-        
-        if not self.is_ollama_installed():
-            self.install_ollama()
-        
-        # Start the server in a separate thread
-        server_thread = threading.Thread(target=self.start_server, daemon=True)
-        server_thread.start()
-        
-        # Wait for the server to start (this is a simple way to wait for the server to be ready)
+        if not self._ollama_installed():
+            self._install_ollama()
+        self._start_server()
+        self._wait_for_server()
+        self._pull_model(self.model_name)
         if self.verbose:
-            print("⚡ Waiting for the server to be ready...")
-        server_thread.join()  # Wait for the server to be fully up
-        
-        # Pull and run the model in a separate thread
-        model_thread = threading.Thread(target=self.run_model, args=(self.model_name,), daemon=True)
-        model_thread.start()
-        model_thread.join()  # Wait for the model to finish running
+            print("✅ QuickLlama is ready!")
 
-    def is_ollama_installed(self):
-        """Check if Ollama is installed."""
-        if self.verbose:
-            print("🔍 Checking if Ollama is installed...")
+    def _ollama_installed(self):
         try:
             subprocess.run(["ollama", "--version"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            if self.verbose:
-                print("✅ Ollama is installed.")
             return True
         except FileNotFoundError:
-            if self.verbose:
-                print("❌ Ollama is not installed.")
             return False
 
-    def install_ollama(self):
-        """Install Ollama."""
+    def _install_ollama(self):
         if self.verbose:
             print("🚀 Installing Ollama...")
-        system_type = platform.system()
-        if system_type == "Linux":
-            try:
-                subprocess.run("curl -fsSL https://ollama.com/install.sh | sh", check=True, shell=True)
-                if self.verbose:
-                    print("✅ Ollama installation completed successfully.")
-            except subprocess.CalledProcessError as e:
-                if self.verbose:
-                    print(f"❌ Installation failed: {e}")
-                raise RuntimeError("Ollama installation failed.")
-        else:
-            raise RuntimeError(f"Unsupported operating system: {system_type}")
+        subprocess.run("curl -fsSL https://ollama.com/install.sh | sh", shell=True, check=True)
 
-    def start_server(self):
-        """Start the Ollama server."""
-        if self.server_process:
-            if self.verbose:
-                print("⚠️ Server is already running.")
-            return
+    def _start_server(self):
         if self.verbose:
-            print("🚀 Starting Ollama server...")
-        self.server_process = subprocess.Popen(
+            print("🚀 Starting Ollama server in background...")
+        # Launch without wait
+        self.server_proc = subprocess.Popen(
             ["ollama", "serve"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1
         )
-        threading.Thread(target=self.stream_output, args=(self.server_process,), daemon=True).start()
-        if self.verbose:
-            print("✅ Ollama server started and running.")
+        threading.Thread(target=self._stream_logs, daemon=True).start()
 
-    def stop_server(self):
-        """Stop the Ollama server."""
-        if self.server_process:
+    def _wait_for_server(self, timeout=60):
+        if self.verbose:
+            print("⚡ Waiting for Ollama server to be ready...")
+        start = time.time()
+        url = "http://localhost:11434/api/generate"
+        while time.time() - start < timeout:
+            try:
+                r = requests.get(url)
+                if r.status_code in (200, 405):
+                    if self.verbose:
+                        print("✅ Ollama server is ready!")
+                    return
+            except requests.exceptions.RequestException:
+                pass
+            time.sleep(1)
+        raise RuntimeError("Ollama server did not become ready in time")
+
+    def _pull_model(self, model_name):
+        if self.verbose:
+            print(f"📥 Pulling model '{model_name}'...")
+        subprocess.run(["ollama", "pull", model_name], check=True)
+        if self.verbose:
+            print(f"✅ Model '{model_name}' pulled.")
+
+    def _stream_logs(self):
+        q = Queue()
+        def _enqueue(pipe):
+            for line in iter(pipe.readline, ""):
+                q.put(line)
+            pipe.close()
+        threading.Thread(target=_enqueue, args=(self.server_proc.stdout,), daemon=True).start()
+        threading.Thread(target=_enqueue, args=(self.server_proc.stderr,), daemon=True).start()
+        while True:
+            try:
+                line = q.get(timeout=0.1)
+                print(line, end="")
+            except:
+                if self.server_proc.poll() is not None:
+                    break
+
+    def stop(self):
+        if self.server_proc:
             if self.verbose:
                 print("🛑 Stopping Ollama server...")
-            os.kill(self.server_process.pid, signal.SIGTERM)
-            self.server_process.wait()
-            self.server_process = None
+            self.server_proc.terminate()
+            self.server_proc.wait()
             if self.verbose:
                 print("✅ Ollama server stopped.")
-        else:
-            if self.verbose:
-                print("⚠️ No server is running.")
-
-    def run_command(self, command):
-        """Run an Ollama command with real-time output."""
-        if self.verbose:
-            print(f"🔧 Executing command: {' '.join(command)}")
-        try:
-            process = subprocess.Popen(
-                command,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-            )
-            self.stream_output(process)  # Pass the process to stream_output
-        except subprocess.CalledProcessError as e:
-            if self.verbose:
-                print(f"❌ Error executing command '{' '.join(command)}': {e}")
-
-    def pull_model(self, model_name):
-        """Pull a model."""
-        if self.verbose:
-            print(f"📥 Pulling model: {model_name}...")
-        self.run_command(["ollama", "pull", model_name])
-        if self.verbose:
-            print(f"✅ Model '{model_name}' pulled successfully.")
-
-    def run_model(self, model_name):
-        """Run a model."""
-        if self.verbose:
-            print(f"🏃 Running model: {model_name}...")
-        self.pull_model(model_name)
-        self.run_command(["ollama", "run", model_name])
-        if self.verbose:
-            print(f"✅ Model '{model_name}' is running.")
-
-    def list_models(self):
-        """List all available models."""
-        if self.verbose:
-            print("📋 Listing available models...")
-        self.run_command(["ollama", "list"])
-
-    def list_running_models(self):
-        """List all running models."""
-        if self.verbose:
-            print("📋 Listing running models...")
-        self.run_command(["ollama", "ps"])
-
-    def stop_model(self, model_name):
-        """Stop a running model."""
-        if self.verbose:
-            print(f"🛑 Stopping model: {model_name}...")
-        self.run_command(["ollama", "stop", model_name])
-        if self.verbose:
-            print(f"✅ Model '{model_name}' stopped.")
-
-    def remove_model(self, model_name):
-        """Remove a model."""
-        if self.verbose:
-            print(f"🗑️ Removing model: {model_name}...")
-        self.run_command(["ollama", "rm", model_name])
-        if self.verbose:
-            print(f"✅ Model '{model_name}' removed successfully.")
-
-    def stream_output(self, process):
-        """Stream the output of a subprocess in real-time."""
-        for line in process.stdout:
-            if self.verbose:
-                print(line.strip())
-        for line in process.stderr:
-            if self.verbose:
-                print(f"⚠️ {line.strip()}")
