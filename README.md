@@ -62,6 +62,12 @@ quick_llama.stop()
 import requests
 import os
 from ollama import chat
+from quick_llama import QuickLlama
+
+model = 'gemma3'
+quick_llama = QuickLlama(model_name=model,verbose=True)
+
+quick_llama.init()
 
 # Step 1: Download the image
 img_url = "https://raw.githubusercontent.com/nuhmanpk/quick-llama/main/images/llama-image.webp" # quick llama cover photo
@@ -72,7 +78,7 @@ with open(img_path, "wb") as f:
 
 # Step 2: Send the image to the model
 response = chat(
-    model="gemma3",
+    model=model,
     messages=[
         {
             "role": "user",
