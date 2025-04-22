@@ -26,7 +26,7 @@ pip install quick-llama
 ```py
 from quick_llama import QuickLlama
 model = 'gemma3'
-quick_llama = QuickLlama(model_name=model,verbose=False)
+quick_llama = QuickLlama(model_name=model,verbose=True)
 
 quick_llama.init()
 ```
@@ -39,7 +39,7 @@ from ollama import ChatResponse
 
 # Defaults to gemma3
 model = 'gemma3'
-quick_llama = QuickLlama(model_name=model,verbose=False)
+quick_llama = QuickLlama(model_name=model,verbose=True)
 
 quick_llama.init()
 
