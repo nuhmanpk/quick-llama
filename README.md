@@ -3,6 +3,10 @@
 [![PyPI version](https://badge.fury.io/py/quick-llama.svg?icon=si%3Apython)](https://badge.fury.io/py/quick-llama)
 [![Downloads](https://pepy.tech/badge/quick-llama)](https://pepy.tech/project/quick-llama)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Contributors](https://img.shields.io/github/contributors/nuhmanpk/quick-llama.svg)](https://github.com/nuhmanpk/quick-llama/graphs/contributors)
+[![GitHub last commit](https://img.shields.io/github/last-commit/nuhmanpk/quick-llama.svg)](https://github.com/nuhmanpk/quick-llama/commits)
+[![Python versions](https://img.shields.io/pypi/pyversions/quick-llama.svg)](https://pypi.org/project/quick-llama/)
+
 
 A Python wrapper for Ollama that simplifies managing and interacting with LLMs on colab with multi model and reasoning model support.
 
@@ -18,8 +22,12 @@ QuickLlama automates server setup, model management, and seamless interaction wi
 
 ## Installtion
 
-```py
+```sh
 pip install quick-llama
+```
+
+```sh
+!pip install quick-llama
 ```
 
 ### Serve a model
@@ -28,8 +36,10 @@ from quick_llama import QuickLlama
 model = 'gemma3'
 quick_llama = QuickLlama(model_name=model,verbose=True)
 
-quick_llama.init()
+quick_llama.init() # -> starts the server in background
 ```
+
+### Serve QuickLlama
 
 ```py
 from quick_llama import QuickLlama
