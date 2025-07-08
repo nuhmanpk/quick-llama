@@ -7,13 +7,14 @@ README = (file / "README.md").read_text()
 
 setup(
     name='quick-llama',
-    version='0.0.10',
+    version='0.0.2',
     description='Run Ollama models easily, anywhere – including online platforms like Google Colab',
     long_description=README,
     long_description_content_type="text/markdown",
     author='Nuhman PK',
     url='https://github.com/nuhmanpk/quick-llama',
     packages=find_packages(include=['quick_llama']),
+    keywords='ollama llama3 colab ai open-source openai llm quick-llama',
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
